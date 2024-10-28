@@ -14,35 +14,27 @@ translationBtn.addEventListener('click', function(e){
 
     const requestBody = {
         q: textInput,
-        source: "en",
-        target: "ja",
+        source: "ja",
+        target: "en",
         format: "text"
     };
 
-    let ajax = new XMLHttpRequest();
+    const ajax = new XMLHttpRequest();
     ajax.open('POST',url, true);
     ajax.setRequestHeader('Content-Type', 'application/json');
 
     ajax.onreadystatechange = function(e) {
         if (ajax.readyState === 4 && ajax.status === 200) {
             const response = JSON.parse(ajax.responseText);
-            const translateText = response.data.translations[0].translatedText;
+            const translatedText = response.data.translations[0].translatedText;
 
-            // ここでテキストボックスに記入
             document.getElementById('textOutPut').textContent = translatedText;
         } else if (ajax.readyState === 4){
             console.error('テキストの翻訳に失敗しました', ajax.statusText);
         }
 
-        ajax.send(JSON.stringify(requestBody));
     };
 
+    ajax.send(JSON.stringify(requestBody));
+}, false);
 
-},)
-
-
-
-
-// 通信が成功した後で使う
-// let textEnglish = document.getElementById('textOutPut');
-// textEnglish.value = translatedText; 
